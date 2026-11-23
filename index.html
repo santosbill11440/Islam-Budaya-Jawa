@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perspektif NU, Muhammadiyah, dan Salafi terhadap Islam dan Budaya Jawa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --krem: #f6ecd9;
+  --emas: #c8973e;
+  --emas-muda: #e7c98a;
+  --cokelat: #3b2716;
+  --cokelat-muda: #6b4a2b;
+  --hijau: #2f5d4a;
+  --kaca: rgba(255, 250, 240, 0.28);
+  --kaca-tepi: rgba(255, 255, 255, 0.55);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 180ms;
+  --dur-2: 420ms;
+  --dur-3: 800ms;
+  --serif: "Cormorant Garamond", "Georgia", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; background: #1d130a; overflow: hidden; }
+body { font-family: var(--sans); color: var(--cokelat); -webkit-font-smoothing: antialiased; }
+
+/* ---------- Deck ---------- */
+.deck { position: fixed; inset: 0; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(28px, 6vw, 88px) clamp(24px, 7vw, 120px) clamp(110px, 14vh, 140px);
+  background: var(--krem) center / cover no-repeat;
+  opacity: 0; visibility: hidden;
+  transform: translate3d(40px, 0, 0);
+  transition: opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
+}
+.slide.is-active {
+  opacity: 1; visibility: visible; transform: translate3d(0, 0, 0);
+  transition: opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out), visibility 0s;
+}
+.slide.is-prev { transform: translate3d(-40px, 0, 0); }
+
+.slide__inner { max-width: 1080px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
+
+/* Latar per slide */
+.bg-judul   { background-image: linear-gradient(rgba(59,39,22,.35), rgba(59,39,22,.35)), url("assets/bg-judul.jfif"); }
+.bg-kaaba   { background-image: linear-gradient(rgba(246,236,217,.82), rgba(246,236,217,.82)), url("assets/bg-kaaba.jfif"); }
+.bg-lentera { background-image: url("assets/bg-lentera.jfif"); }
+.bg-kertas  { background-image: linear-gradient(rgba(246,236,217,.9), rgba(246,236,217,.9)), url("assets/bg-masjid-kertas.jfif"); }
+.bg-parch   { background-image: linear-gradient(rgba(246,236,217,.9), rgba(246,236,217,.9)), url("assets/bg-parchment.jfif"); }
+.bg-sketsa  { background-image: linear-gradient(90deg, rgba(246,236,217,.95) 40%, rgba(246,236,217,.7)), url("assets/bg-masjid-sketsa.jfif"); background-position: right center; }
+
+/* ---------- Tipografi ---------- */
+.eyebrow { font-size: 14px; letter-spacing: .02em; color: var(--cokelat-muda); font-weight: 500; }
+h1, h2 { font-family: var(--serif); font-weight: 700; line-height: 1.05; color: var(--cokelat); }
+h1 { font-size: clamp(44px, 7vw, 92px); max-width: 16ch; }
+h2 { font-size: clamp(36px, 5vw, 60px); margin-bottom: 28px; }
+p, li { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.6; max-width: 62ch; }
+p + p { margin-top: 14px; }
+.lead { font-size: clamp(19px, 2vw, 24px); line-height: 1.5; max-width: 52ch; color: var(--cokelat); }
+.src { font-size: 14px; color: var(--cokelat-muda); margin-top: 22px; }
+
+/* ---------- Liquid glass ---------- */
+.glass {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,250,240,.16) 55%, rgba(255,255,255,.3));
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--kaca-tepi);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1px 0 rgba(120,80,30,.12),
+    0 18px 40px -18px rgba(59,39,22,.35);
+}
+.glass::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(120% 60% at 20% 0%, rgba(255,255,255,.55), transparent 60%);
+  opacity: .6;
+}
+
+/* ---------- Komponen konten ---------- */
+.kartu { padding: 26px 28px; }
+.kartu h3 { font-family: var(--serif); font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.kartu p { font-size: 17px; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.pill {
+  display: inline-block; padding: 6px 14px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; color: var(--cokelat);
+}
+
+ul.daftar { list-style: none; display: grid; gap: 14px; margin-top: 8px; }
+ul.daftar li { position: relative; padding-left: 26px; }
+ul.daftar li::before {
+  content: ""; position: absolute; left: 0; top: .6em; width: 9px; height: 9px;
+  background: var(--emas); transform: rotate(45deg);
+}
+
+/* Ornamen (tepi slide) */
+.ornamen {
+  position: absolute; pointer-events: none; z-index: 0;
+  width: clamp(160px, 22vw, 300px); opacity: .55;
+  mix-blend-mode: multiply;
+  background: url("assets/ornamen-set.jfif") center / contain no-repeat;
+}
+.ornamen--kanan { right: -40px; bottom: -30px; }
+.ornamen--kiri  { left: -50px; top: -40px; transform: rotate(-12deg); }
+
+/* ---------- Slide judul ---------- */
+.judul { color: #fff7e8; }
+.judul h1 { color: #fff7e8; text-shadow: 0 2px 24px rgba(0,0,0,.35); }
+.judul .eyebrow { color: var(--emas-muda); }
+.judul .lead { color: #fbeeda; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+.judul .kartu-kecil {
+  display: inline-block; margin-top: 30px; padding: 16px 22px; font-size: 16px; color: #fff7e8;
+}
+
+/* ---------- Timeline Muhammadiyah ---------- */
+.timeline { position: relative; display: grid; gap: 22px; margin-top: 8px; padding-left: 34px; }
+.timeline::before {
+  content: ""; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px;
+  background: rgba(59,39,22,.18);
+}
+.timeline__fill {
+  position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px;
+  background: var(--emas); transform-origin: top; transform: scaleY(var(--tp, 0));
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.timeline__item { position: relative; }
+.timeline__item::before {
+  content: ""; position: absolute; left: -31px; top: 8px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--krem); border: 2px solid var(--cokelat-muda);
+  transition: background var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out);
+}
+.timeline__item.is-reached::before { background: var(--emas); border-color: var(--emas); transform: scale(1.25); }
+.timeline__item strong { font-family: var(--serif); font-size: 24px; display: block; }
+
+/* ---------- Grafik Kotagede ---------- */
+.bar-grup { display: grid; gap: 24px; }
+.bar { display: grid; gap: 8px; }
+.bar__label { font-size: 16px; font-weight: 600; }
+.bar__track { height: 30px; border-radius: 999px; background: rgba(59,39,22,.1); overflow: hidden; }
+.bar__isi {
+  height: 100%; width: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--emas), #a8742a);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 1100ms var(--ease-out);
+}
+.bar__isi--lawan { background: linear-gradient(90deg, #9c6b5b, #6e4032); }
+.bar.is-visible .bar__isi { transform: scaleX(var(--nilai)); }
+.bar__nilai { font-size: 15px; color: var(--cokelat-muda); }
+.bar__nilai b { color: var(--cokelat); }
+
+.padat .bar-grup { gap: 12px; }
+.padat .bar { gap: 4px; }
+.padat .bar__track { height: 20px; }
+.padat h2 { margin-bottom: 18px; font-size: clamp(32px, 4.4vw, 52px); }
+
+/* ---------- Tabel perbandingan ---------- */
+.tabel { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+.tabel th, .tabel td { text-align: left; padding: 14px 16px; font-size: 16px; vertical-align: top; }
+.tabel th { font-family: var(--serif); font-size: 22px; font-weight: 700; border-bottom: 1px solid rgba(59,39,22,.2); }
+.tabel td { border-bottom: 1px solid rgba(59,39,22,.12); }
+.tabel tr:last-child td { border-bottom: none; }
+.tabel td:first-child { font-weight: 600; width: 22%; }
+.tabel tbody tr { opacity: 0; transform: translate3d(0, 10px, 0); transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+.tabel tbody tr.is-visible { opacity: 1; transform: none; }
+
+/* ---------- Tombol navigasi (liquid glass) ---------- */
+.navbar {
+  position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 10;
+  display: flex; align-items: center; gap: 10px; padding: 8px;
+  border-radius: 999px;
+}
+.navbar::before { border-radius: 999px; }
+.btn {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; min-width: 44px; padding: 0 16px;
+  border: none; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--cokelat);
+  font: inherit; font-size: 15px; font-weight: 600;
+  transition: background var(--dur-1) var(--ease), transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+.btn:hover { background: rgba(255,255,255,.45); }
+.btn:active { transform: scale(.96); }
+.btn:focus-visible { outline: 2px solid var(--emas); outline-offset: 2px; }
+.btn:disabled { opacity: .35; cursor: default; background: transparent; transform: none; }
+.btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.penunjuk { display: flex; gap: 6px; padding: 0 8px; position: relative; z-index: 1; }
+.penunjuk button {
+  width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer; padding: 0;
+  background: rgba(59,39,22,.25);
+  transition: background var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out);
+}
+.penunjuk button[aria-current="true"] { background: var(--emas); transform: scale(1.35); }
+.penunjuk button:focus-visible { outline: 2px solid var(--emas); outline-offset: 2px; }
+
+.hitung {
+  position: relative; z-index: 1; padding: 0 12px; font-size: 14px; font-weight: 600; white-space: nowrap;
+  color: var(--cokelat); font-variant-numeric: tabular-nums; min-width: 72px; text-align: center;
+}
+
+/* Progress bar atas */
+.progres {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 11;
+  background: rgba(255,255,255,.2);
+}
+.progres__isi { height: 100%; background: var(--emas); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform var(--dur-2) var(--ease); }
+
+/* Pesan toast */
+.toast {
+  position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px); z-index: 12;
+  padding: 12px 18px; font-size: 15px; opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease-out);
+}
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Animasi masuk per elemen (sekali jalan) ---------- */
+[data-reveal] {
+  opacity: 0; transform: translate3d(0, 18px, 0);
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 110ms + 120ms);
+}
+.slide.is-active [data-reveal] { opacity: 1; transform: none; }
+
+/* Slide 2 linimasa: salah satu kartu dengan efek hover yang tidak menunda */
+.kartu { transition: transform var(--dur-1) var(--ease); }
+.kartu:hover { transform: translate3d(0, -3px, 0); }
+
+/* Penekanan kata kunci (pakai warna, bukan huruf miring) */
+.kunci { color: var(--hijau); font-weight: 600; }
+
+/* ---------- Responsif ---------- */
+@media (max-width: 760px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .slide { padding: 72px 22px 130px; overflow-y: auto; justify-content: flex-start; }
+  .tabel th, .tabel td { font-size: 14px; padding: 10px 8px; }
+  .tabel td:first-child { width: 28%; }
+  .navbar { bottom: 14px; }
+  .btn span.teks { display: none; }
+  .hitung { min-width: 60px; }
+}
+
+/* Non-JS / tanpa animasi */
+.no-js .slide { opacity: 1; visibility: visible; transform: none; position: relative; min-height: 100vh; }
+.no-js .deck { position: static; }
+.no-js .navbar, .no-js .progres { display: none; }
+.no-js [data-reveal] { opacity: 1; transform: none; }
+.no-js .bar__isi { transform: scaleX(var(--nilai)); }
+.no-js .tabel tbody tr { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; transition-delay: 0ms !important; animation: none !important; }
+  .slide, .slide.is-active, .slide.is-prev { transform: none; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<div class="progres" aria-hidden="true"><div class="progres__isi"></div></div>
+
+<main class="deck" id="deck" aria-roledescription="presentasi">
+
+  <!-- 1. Judul -->
+  <section class="slide bg-judul judul is-active" data-judul="Judul" aria-label="Slide 1 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Islam dan Budaya Jawa</p>
+      <h1 data-reveal style="--i:1">Perspektif NU, Muhammadiyah, dan Salafi</h1>
+      <p class="lead" data-reveal style="--i:2">Bagaimana tiga kelompok Islam memandang slametan, tahlilan, ziarah, dan tradisi Jawa.</p>
+      <div class="glass kartu kartu-kecil" data-reveal style="--i:3">
+        Kelompok 10 · Mata Kuliah Islam dan Budaya Jawa<br>
+        Dosen: Lisan Nulhasanah, M.Hum.<br>
+        Syifa Cahya Anggraini · Putra Izhar Gumilar
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Latar belakang -->
+  <section class="slide bg-kaaba" aria-label="Slide 2 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Latar belakang</p>
+      <h2 data-reveal style="--i:1">Islam tumbuh di tengah budaya yang sudah ada</h2>
+      <p class="lead" data-reveal style="--i:2">Praktik orang Jawa sering bersinggungan dengan slametan, nyadran, tahlilan, dan ziarah kubur. Tidak semua kelompok Islam menilainya dengan cara yang sama.</p>
+      <div class="grid-3" style="margin-top:34px">
+        <div class="glass kartu" data-reveal style="--i:3"><h3>NU</h3><p>Menjaga tradisi sebagai bagian dari amaliah.</p></div>
+        <div class="glass kartu" data-reveal style="--i:4"><h3>Muhammadiyah</h3><p>Bergeser dari pemurnian ke dakwah kultural.</p></div>
+        <div class="glass kartu" data-reveal style="--i:5"><h3>Salafi</h3><p>Memegang pemurnian ajaran dari generasi awal.</p></div>
+      </div>
+      <p class="src" data-reveal style="--i:6">Rumusan masalah: bagaimana perspektif NU, Muhammadiyah, dan Salafi terhadap Islam dan budaya Jawa?</p>
+    </div>
+  </section>
+
+  <!-- 3. NU -->
+  <section class="slide bg-parch" aria-label="Slide 3 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 1</p>
+      <h2 data-reveal style="--i:1">Nahdlatul Ulama: menjaga tradisi</h2>
+      <ul class="daftar">
+        <li data-reveal style="--i:2">Kelompok tradisionalis yang menjalankan ziarah kubur, tahlil dan Yasin berjamaah, istighosah, tawasul, dan Maulid Nabi.</li>
+        <li data-reveal style="--i:3">Bagi NU, amaliah itu bagian dari kehidupan beragama, bukan penyimpangan. Sebutan bid'ah atau syirik dianggap merusak keberagaman tradisi.</li>
+        <li data-reveal style="--i:4">Penolakan terhadap Salafi-Wahabi tampak secara kelembagaan, misalnya rekomendasi Rakernas Lakdapres PBNU 2022, meski belum menjadi keputusan resmi.</li>
+      </ul>
+      <p class="src" data-reveal style="--i:5">Sumber: Fathony (2025). Sudut pandang ini menolak Salafi, sehingga dibaca bersama sumber lain.</p>
+    </div>
+    <div class="ornamen ornamen--kanan" aria-hidden="true"></div>
+  </section>
+
+  <!-- 4. Muhammadiyah awal -->
+  <section class="slide bg-lentera" aria-label="Slide 4 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 2 · Awal</p>
+      <h2 data-reveal style="--i:1">Muhammadiyah: berdiri di tengah budaya Jawa</h2>
+      <div class="glass kartu" data-reveal style="--i:2">
+        <p>Didirikan K.H. Ahmad Dahlan pada <span class="kunci">18 November 1912</span> di Yogyakarta. Dahlan adalah abdi dalem Keraton dan tetap menjabat penghulu kesultanan.</p>
+      </div>
+      <div class="glass kartu" data-reveal style="--i:3;margin-top:18px">
+        <p>Awalnya Muhammadiyah mengusung <span class="kunci">purifikasi</span>: sesaji, slametan, nyadran, dan ziarah dianggap bertentangan dengan tauhid. Tapi Dahlan tetap menghormati tata krama Jawa dan tidak menolak secara frontal.</p>
+      </div>
+      <p class="src" data-reveal style="--i:4">Sumber: Syamsuddin (2025); Fathony (2025).</p>
+    </div>
+  </section>
+
+  <!-- 5. Muhammadiyah perubahan (timeline) -->
+  <section class="slide bg-kertas" aria-label="Slide 5 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 2 · Perubahan</p>
+      <h2 data-reveal style="--i:1">Dari purifikasi ke dakwah kultural</h2>
+      <div class="timeline" id="timeline" data-reveal style="--i:2">
+        <div class="timeline__fill"></div>
+        <div class="timeline__item" data-step>
+          <strong>1912 · Awal</strong>
+          <p>Purifikasi ketat, sesaji dan slametan dianggap menyimpang dari tauhid.</p>
+        </div>
+        <div class="timeline__item" data-step>
+          <strong>2015 · Muktamar ke-47, Makassar</strong>
+          <p>Wacana Islam wasathiyah menguat dan mendorong dakwah yang lebih dialogis.</p>
+        </div>
+        <div class="timeline__item" data-step>
+          <strong>Hari ini · Kotagede</strong>
+          <p>Nyadran dijalankan dengan doa dan tadarus, slametan dibuat sederhana dengan tausiyah, ziarah dibolehkan selama tanpa permintaan kepada arwah.</p>
+        </div>
+      </div>
+      <p class="src" data-reveal style="--i:3">Sumber: Syamsuddin (2025).</p>
+    </div>
+  </section>
+
+  <!-- 6. Data Kotagede -->
+  <section class="slide bg-kertas padat" aria-label="Slide 6 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Dampak di Kotagede</p>
+      <h2 data-reveal style="--i:1">Perubahan pendekatan diterima masyarakat</h2>
+      <div class="bar-grup" id="bars">
+        <div class="bar" data-reveal style="--i:2">
+          <div class="bar__label">Rasa diterima terhadap Muhammadiyah</div>
+          <div class="bar__track"><div class="bar__isi" style="--nilai:0.45"></div></div>
+          <div class="bar__nilai">Sebelum <b>45%</b></div>
+          <div class="bar__track"><div class="bar__isi" style="--nilai:0.78"></div></div>
+          <div class="bar__nilai">Sesudah <b>78%</b></div>
+        </div>
+        <div class="bar" data-reveal style="--i:3">
+          <div class="bar__label">Partisipasi sosial</div>
+          <div class="bar__track"><div class="bar__isi" style="--nilai:0.38"></div></div>
+          <div class="bar__nilai">Sebelum <b>38%</b></div>
+          <div class="bar__track"><div class="bar__isi" style="--nilai:0.66"></div></div>
+          <div class="bar__nilai">Sesudah <b>66%</b></div>
+        </div>
+        <div class="bar" data-reveal style="--i:4">
+          <div class="bar__label">Konflik sosial (makin rendah makin baik)</div>
+          <div class="bar__track"><div class="bar__isi bar__isi--lawan" style="--nilai:0.23"></div></div>
+          <div class="bar__nilai">Sebelum <b>23%</b></div>
+          <div class="bar__track"><div class="bar__isi bar__isi--lawan" style="--nilai:0.09"></div></div>
+          <div class="bar__nilai">Sesudah <b>9%</b></div>
+        </div>
+      </div>
+      <p class="src" data-reveal style="--i:5">Catatan: angka ini dari satu studi lokal di Kotagede (Syamsuddin, 2025), jangan digeneralisasi ke seluruh Muhammadiyah.</p>
+    </div>
+  </section>
+
+  <!-- 7. Muhammadiyah varian -->
+  <section class="slide bg-parch" aria-label="Slide 7 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 2 · Sikap budaya</p>
+      <h2 data-reveal style="--i:1">Menerima budaya secara selektif</h2>
+      <ul class="daftar">
+        <li data-reveal style="--i:2">Disebut <span class="kunci">tajdid al-thaqafa</span>: menolak pemujaan makam, tapi tidak menolak batik sebagai ekspresi budaya.</li>
+        <li data-reveal style="--i:3">Ada dua varian internal: <span class="kunci">MUSA</span> (Muhammadiyah Salafi) yang puritan, dan <span class="kunci">MUNU</span> (Muhammadiyah Nahdliyin) yang lebih akomodatif, misalnya terhadap tahlilan.</li>
+        <li data-reveal style="--i:4">Kehadiran MUSA kadang bertentangan dengan arah ideologi Muhammadiyah sendiri, dan para tokohnya menegaskan tidak ada keterkaitan dengan Wahabi.</li>
+      </ul>
+      <p class="src" data-reveal style="--i:5">Sumber: Hudri & Ahmad (2025); Fathony (2025).</p>
+    </div>
+  </section>
+
+  <!-- 8. Salafi asal -->
+  <section class="slide bg-kaaba" aria-label="Slide 8 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 3 · Asal</p>
+      <h2 data-reveal style="--i:1">Salafi: kembali ke generasi awal</h2>
+      <p class="lead" data-reveal style="--i:2">Istilah Salafi berasal dari <i>Salafus Salih</i>, yaitu sahabat, tabiin, dan tabiut tabiin. Unsur yang muncul belakangan, seperti filsafat, mistik, dan tradisi lokal, dianggap penyimpangan.</p>
+      <div class="glass kartu" data-reveal style="--i:3;margin-top:28px">
+        <div class="timeline" style="margin-top:0">
+          <div class="timeline__item is-reached" style="--i:3"><strong>Ahmad bin Hanbal</strong><p>Rujukan awal pemikiran teks.</p></div>
+          <div class="timeline__item is-reached" style="--i:4"><strong>Ibn Taymiyyah</strong><p>Mengkritik praktik sufi populer dan pemujaan wali.</p></div>
+          <div class="timeline__item is-reached" style="--i:5"><strong>Muhammad bin Abdul Wahhab (abad ke-18)</strong><p>Menentang ziarah makam dan perantara dalam ibadah.</p></div>
+        </div>
+      </div>
+      <p class="src" data-reveal style="--i:6">Sumber: Hudri & Ahmad (2025).</p>
+    </div>
+  </section>
+
+  <!-- 9. Salafi di Indonesia -->
+  <section class="slide bg-sketsa" aria-label="Slide 9 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Perspektif 3 · Di Indonesia</p>
+      <h2 data-reveal style="--i:1">Dari Padri hingga Jawa</h2>
+      <ul class="daftar">
+        <li data-reveal style="--i:2"><span class="kunci">Gerakan Padri</span> di Sumatra Barat menentang judi, sabung ayam, dan sesaji. Benturan dengan adat berujung Perang Padri (1803–1837), yang mereda lewat kesepakatan <i>adat basandi syara', syara' basandi Kitabullah</i>.</li>
+        <li data-reveal style="--i:3">Di Jawa, sebagian pesantren Salafi menolak tradisi lokal, pakaian adat, dan ritual perayaan. Tahlilan untuk orang meninggal, Maulid, dan ziarah dianggap bid'ah.</li>
+        <li data-reveal style="--i:4">Mulai marak sejak <span class="kunci">1980-an</span>, dibawa lulusan Timur Tengah. Penilaian NU dan Muhammadiyah menilai dakwahnya kaku dan mudah menyalahkan sesama Muslim.</li>
+      </ul>
+      <p class="src" data-reveal style="--i:5">Sumber: Hudri & Ahmad (2025); Fathony (2025).</p>
+    </div>
+  </section>
+
+  <!-- 10. Perbandingan -->
+  <section class="slide bg-kertas" aria-label="Slide 10 dari 10">
+    <div class="slide__inner">
+      <p class="eyebrow" data-reveal style="--i:0">Ringkasan</p>
+      <h2 data-reveal style="--i:1">Tiga kelompok, tiga cara memandang tradisi</h2>
+      <div class="glass" data-reveal style="--i:2;padding:8px 14px">
+        <table class="tabel" id="tabel">
+          <thead><tr><th scope="col">Aspek</th><th scope="col">NU</th><th scope="col">Muhammadiyah</th><th scope="col">Salafi</th></tr></thead>
+          <tbody>
+            <tr><td>Slametan</td><td>Dijalankan sebagai amaliah</td><td>Dulu ditolak, kini format sederhana dengan tausiyah</td><td>Dinilai tidak dicontohkan Nabi</td></tr>
+            <tr><td>Ziarah kubur</td><td>Dijalankan, termasuk tawasul</td><td>Dibolehkan tanpa permintaan kepada arwah</td><td>Dinilai bid'ah</td></tr>
+            <tr><td>Tahlilan</td><td>Dijalankan secara berjamaah</td><td>Umumnya selektif; varian MUNU lebih akomodatif</td><td>Dinilai bid'ah</td></tr>
+            <tr><td>Budaya lokal</td><td>Dijaga sebagai bagian kehidupan beragama</td><td>Menerima secara selektif (tajdid al-thaqafa)</td><td>Cenderung mengurangi ekspresi lokal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src" data-reveal style="--i:3">Kesimpulan: keberislaman di Jawa memang beragam. Perbedaan bisa dikelola lewat dialog dan keterlibatan sosial. Saran: saling menghargai selama tidak menyentuh pokok akidah.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="glass navbar" aria-label="Navigasi slide">
+  <button class="btn" id="prev" aria-label="Slide sebelumnya">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span class="teks">Sebelumnya</span>
+  </button>
+  <div class="penunjuk" id="penunjuk" role="group" aria-label="Pilih slide"></div>
+  <span class="hitung" id="hitung" aria-live="polite">1 / 10</span>
+  <button class="btn" id="next" aria-label="Slide berikutnya">
+    <span class="teks">Berikutnya</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <button class="btn" id="fs" aria-label="Layar penuh" aria-pressed="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+</nav>
+
+<div class="glass toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var total = slides.length;
+  var index = 0;
+  var prevBtn = document.getElementById("prev");
+  var nextBtn = document.getElementById("next");
+  var fsBtn = document.getElementById("fs");
+  var hitung = document.getElementById("hitung");
+  var penunjuk = document.getElementById("penunjuk");
+  var progres = document.querySelector(".progres__isi");
+  var toastEl = document.getElementById("toast");
+  var toastTimer = null;
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("is-show"); }, 3200);
+  }
+
+  // Titik penunjuk
+  slides.forEach(function (_, i) {
+    var b = document.createElement("button");
+    b.setAttribute("aria-label", "Ke slide " + (i + 1));
+    b.addEventListener("click", function () { go(i); });
+    penunjuk.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(penunjuk.children);
+
+  function animateEnter(slide) {
+    // Bar grafik dan baris tabel dipicu saat slide aktif.
+    slide.querySelectorAll(".bar").forEach(function (bar) {
+      requestAnimationFrame(function () { bar.classList.add("is-visible"); });
+    });
+    slide.querySelectorAll(".tabel tbody tr").forEach(function (tr, i) {
+      setTimeout(function () { tr.classList.add("is-visible"); }, 300 + i * 140);
+    });
+    slide.querySelectorAll(".timeline").forEach(function (tl) {
+      var steps = tl.querySelectorAll("[data-step]");
+      var fill = tl.querySelector(".timeline__fill");
+      var n = steps.length;
+      tl.style.setProperty("--tp", 0);
+      setTimeout(function () {
+        if (fill) tl.style.setProperty("--tp", 1);
+        steps.forEach(function (s, i) {
+          setTimeout(function () { s.classList.add("is-reached"); }, 300 + i * (900 / Math.max(n, 1)));
+        });
+      }, 400);
+    });
+  }
+
+  function resetSlide(slide) {
+    slide.querySelectorAll(".bar").forEach(function (bar) { bar.classList.remove("is-visible"); });
+    slide.querySelectorAll(".tabel tbody tr").forEach(function (tr) { tr.classList.remove("is-visible"); });
+    slide.querySelectorAll("[data-step]").forEach(function (s) { s.classList.remove("is-reached"); });
+    slide.querySelectorAll(".timeline").forEach(function (tl) { tl.style.setProperty("--tp", 0); });
+  }
+
+  function render(from) {
+    slides.forEach(function (s, i) {
+      s.classList.remove("is-prev");
+      if (i === index) {
+        s.classList.add("is-active");
+        s.setAttribute("aria-hidden", "false");
+        animateEnter(s);
+      } else {
+        s.classList.remove("is-active");
+        s.setAttribute("aria-hidden", "true");
+        if (i < index) s.classList.add("is-prev");
+        resetSlide(s);
+      }
+    });
+    dots.forEach(function (d, i) { d.setAttribute("aria-current", i === index ? "true" : "false"); });
+    hitung.textContent = (index + 1) + " / " + total;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === total - 1;
+    progres.style.setProperty("--p", (index + 1) / total);
+    if (history.replaceState) history.replaceState(null, "", "#" + (index + 1));
+  }
+
+  function go(i) {
+    if (i < 0 || i >= total || i === index) return;
+    index = i;
+    render();
+  }
+
+  prevBtn.addEventListener("click", function () { go(index - 1); });
+  nextBtn.addEventListener("click", function () { go(index + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(index + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(index - 1); }
+    else if (e.key === "Home") { go(0); }
+    else if (e.key === "End") { go(total - 1); }
+    else if (e.key === "f" || e.key === "F") { toggleFs(); }
+  });
+
+  // Geser dengan sentuhan
+  var touchX = null;
+  document.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener("touchend", function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? index + 1 : index - 1);
+    touchX = null;
+  }, { passive: true });
+
+  // Layar penuh
+  function toggleFs() {
+    var doc = document;
+    if (!doc.fullscreenElement) {
+      var p = doc.documentElement.requestFullscreen ? doc.documentElement.requestFullscreen() : null;
+      if (p && p.catch) {
+        p.catch(function () { showToast("Browser menolak layar penuh. Coba tekan F11 atau izinkan layar penuh untuk situs ini."); });
+      }
+    } else {
+      if (doc.exitFullscreen) doc.exitFullscreen();
+    }
+  }
+  fsBtn.addEventListener("click", toggleFs);
+  document.addEventListener("fullscreenchange", function () {
+    var on = !!document.fullscreenElement;
+    fsBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    fsBtn.setAttribute("aria-label", on ? "Keluar layar penuh" : "Layar penuh");
+  });
+
+  // Mulai dari hash, misalnya #6
+  var h = parseInt((location.hash || "").replace("#", ""), 10);
+  if (!isNaN(h) && h >= 1 && h <= total) index = h - 1;
+
+  // Sinkron URL gagal di sebagian browser untuk file:// (hanya pelengkap)
+  render();
+  window.addEventListener("hashchange", function () {
+    var n = parseInt((location.hash || "").replace("#", ""), 10);
+    if (!isNaN(n) && n >= 1 && n <= total && n - 1 !== index) { index = n - 1; render(); }
+  });
+})();
+</script>
+</body>
+</html>
